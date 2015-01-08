@@ -143,25 +143,16 @@ void MeshLoader::saveModel()
     if (viewMesh != nullptr)
         mlp.viewProvider->AddItem(viewMesh);
 }
-
-QDebug operator<< (QDebug d, const glm::vec3 & v) {
-    d << QString("[%1, %2, %3]").arg(v[0]).arg(v[1]).arg(v[2]);
-    return d;
-}
-
 namespace std{
 template<>
 bool std::less<glm::vec3>::operator () (const glm::vec3& a, const glm::vec3& b) const
 {
-    for (int i = 0; i < 3; i++) {
-        if (a[i] < b[i])
-            return true;
-        if (a[i] > b[i])
-            return false;
-    }
-    return false;
+    DBGF << "comparing" << a[0] << a[1]<<a[2]<< "to" << b[0] << b[1]<<b[2] <<
+          (a[0] < b[0] && a[1] < b[1] && a[2] < b[2]);
+    return a[0] < b[0] && a[1] < b[1] && a[2] < b[2];
 }
 }
+
 
 void MeshLoader::createMeshVectors()
 {
@@ -176,42 +167,45 @@ void MeshLoader::createMeshVectors()
     setTitle(QString("%1: creating vertices arrays").arg(ShortFileName()));
 
     for (int i = 0; i < stlFacets.length(); i++) {
+        StlFacet& stlFacet = stlFacets[i];
+        for (int v = 0; v < 3; v++)
+            for (int x = 0; x< 3; x++) {
+                stlFacet.vertices[v][x] = std::round(stlFacet.vertices[v][x]);
+            }
+        for (int v = 0; v < 3; v++)
+            DBGF << stlFacet.vertices[v][0] << stlFacet.vertices[v][1] << stlFacet.vertices[v][1];
+    }
+    for (int i = 0; i < stlFacets.length(); i++) {
         const StlFacet& stlFacet = stlFacets[i];
         setProgress(i*95.0/stlFacets.length());
         facets[i].mesh = mlp.mesh;
 
         //vertices
-        for (int v = 0; v < 3; v++) {
-            const glm::vec3& vertex = stlFacet.vertices[v];
-             verticesMap[vertex] = -1;
-        }   
+        for (int f = 0; f < 3; f++) {
+            const glm::vec3& v = stlFacet.vertices[f];
+            DBGF << "checking" << v[0] << v[1] <<v[2];
+            if (verticesMap.find(v) == verticesMap.end()) {
+                DBGF << "adding";
+                verticesMap[v] = verticesMap.size()-1;
+            }
+            else {
+                DBGF << "NOT adding";
+            }
+            facets[i].v[f] = verticesMap[v];
+        }
 
         //normal
         facetNormals[i] = glm::vec3(stlFacets[i].normal[0], stlFacets[i].normal[1], stlFacets[i].normal[2]);
         facets[i].n = i;
     }
 
-    std::map<glm::vec3, int>::iterator mapIter =  verticesMap.begin();
-    int v = 0;
-    while(mapIter != verticesMap.end()) {
-        mapIter->second = v;
-        mapIter++; v++;
-    }
-    for (int i = 0; i < stlFacets.length(); i++) {
-        const StlFacet& stlFacet = stlFacets[i];
-        for (int v = 0; v < 3; v++) {
-            std::map<glm::vec3, int>::iterator mapIter = verticesMap.find(stlFacet.vertices[v]);
-            facets[i].v[v] = mapIter->second;
-        }
-    }
-
     vertices.resize(verticesMap.size());
 
-    mapIter =  verticesMap.begin();
+    std::map<glm::vec3, int>::iterator mapIter =  verticesMap.begin();
     for (int i = 0; i < verticesMap.size(); i++) {
         setProgress((100-i*5.0)/verticesMap.size());
-        vertices[i] = mapIter->first;
         mapIter++;
+        vertices[i] = mapIter->first;
     }
     setProgress(100);
 }

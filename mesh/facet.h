@@ -3,9 +3,7 @@
 
 #include <QList>
 
-class SharedVertex;
 class Mesh;
-class QVector3D;
 
 class Facet
 {
@@ -13,8 +11,8 @@ public:
     Facet();
     ~Facet();
 
-    SharedVertex* v[3];
-    QVector3D* n;
+    long v[3];//vertex index
+    long n;//normal index
     QList<Facet*> Neighbors;
     Mesh* mesh;
 };

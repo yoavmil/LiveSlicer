@@ -16,7 +16,6 @@ Task::Task(bool _threaded):
     threaded(_threaded),
     taskState(NotStarted)
 {
-
     QMutexLocker ml(&Task::allJobsMutex);
     Task::alljobs << this;
 
@@ -40,7 +39,9 @@ Task::~Task()
 
 int Task::GetProgress()
 {
-    return 0;
+    QMutexLocker ml(&samplingMutex);
+    prevSampledProgres = currProgress;
+    return currProgress;
 }
 
 bool Task::IsFinished()
@@ -72,9 +73,11 @@ void Task::Abort()
 
 void Task::setProgress(int p)
 {
+    QMutexLocker ml(&samplingMutex);
     if (currProgress != p) {
         currProgress = p;
-        emit progress(currProgress);
+        if (prevSampledProgres != currProgress)
+            emit progressChanged();
     }
 }
 void Task::setProgress(double p)

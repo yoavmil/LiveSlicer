@@ -2,26 +2,35 @@
 #define MESH_H
 
 #include <QObject>
-#include <QVector3D>
-#include <QVector>
+#include <vector>
+
+#include <glm/glm.hpp>
 
 #include "facet.h"
-#include "sharedvertex.h"
+#include "common.h"
+
+struct MeshStats {
+    int origNrFacets;
+    //TODO add here stuff;
+};
+
 class Mesh : public QObject
 {
     Q_OBJECT
+
 public:
-    explicit Mesh(QObject *parent = 0);
+    explicit Mesh();
     ~Mesh();
 
-    QVector<SharedVertex> vertices;
-    QVector<Facet> facets;
+    std::vector<glm::vec3> vertices;
+    std::vector<glm::vec3> facetNormals;
+    std::vector<Facet> facets;
+
+    MeshStats meshStats;
 
 signals:
 
 public slots:
-
-
 
 };
 

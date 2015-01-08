@@ -22,7 +22,6 @@ ViewerCam::~ViewerCam()
 
 void ViewerCam::mousePressed(ViewerCam::MoveMode mm, const QPoint &pos)
 {
-
     moveMode = mm;
     lastPos = pos;
 }

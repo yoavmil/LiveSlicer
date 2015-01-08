@@ -24,7 +24,7 @@ signals:
     void startRequsted();
 
 private slots:
-    void progress(int donePrecent);//0-100
+    void progressChanged();//0-100
     void finished(bool ok);
     void startPauseClicked();
     void abortClicked();

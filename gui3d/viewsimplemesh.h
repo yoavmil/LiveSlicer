@@ -1,5 +1,5 @@
-#ifndef VIEWMESH_H
-#define VIEWMESH_H
+#ifndef VIEWSIMPLEMESH_H
+#define VIEWSIMPLEMESH_H
 
 #include <QObject>
 #include <QColor>
@@ -35,7 +35,6 @@ private:
 
     void updateAABB();
     void centralize();
-
 };
 
-#endif // VIEWMESH_H
+#endif // VIEWSIMPLEMESH_H

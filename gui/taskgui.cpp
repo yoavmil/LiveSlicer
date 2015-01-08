@@ -17,11 +17,11 @@ TaskGui::~TaskGui()
     delete ui;
 }
 
-void TaskGui::connectToTask(Task *_task)
+void TaskGui::connectToTask(Task* _task)
 {
     DBGF;
     task = _task;
-    connect(task, SIGNAL(progress(int)), this, SLOT(progress(int)));
+    connect(task, SIGNAL(progressChanged()), this, SLOT(progressChanged()));
     connect(task, SIGNAL(finished(bool)), this, SLOT(finished(bool)));
     connect(task, SIGNAL(paused()), this, SLOT(paused()));
     connect(task, SIGNAL(aborted()), this, SLOT(aborted()));
@@ -32,9 +32,9 @@ void TaskGui::connectToTask(Task *_task)
 }
 
 
-void TaskGui::progress(int donePrecent)
+void TaskGui::progressChanged()
 {
-    ui->progressBar->setValue(donePrecent);
+    ui->progressBar->setValue(task->GetProgress());
 }
 
 

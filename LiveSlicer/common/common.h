@@ -1,7 +1,6 @@
 #ifndef COMMON
 #define COMMON
 
-
 //stl format stuff
 #define STL_BINARY_HEADER_SIZE            84
 typedef char stl_extra[2];

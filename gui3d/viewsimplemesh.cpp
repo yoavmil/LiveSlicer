@@ -20,6 +20,7 @@ void ViewSimpleMesh::SetFacets(QVector<StlFacet> _facets)
 
 void ViewSimpleMesh::doPaint()
 {
+    return;
     if (Color.alpha() == 255)
         glColor3b(Color.red(), Color.green(), Color.blue());
     else
@@ -28,10 +29,10 @@ void ViewSimpleMesh::doPaint()
     glBegin(GL_TRIANGLES);
     for(const StlFacet& f: facets)
     {
-        glNormal3fv(f.normal);
+        glNormal3fv(&f.normal[0]);
         for (int v = 0; v < 3; v++) {
-            glColor3fv(f.normal);
-            glVertex3fv(f.coords[v]);
+            glColor3fv(&f.normal[0]);
+            glVertex3fv(&f.vertices[v][0]);
         }
     }
     glEnd();
@@ -42,7 +43,7 @@ void ViewSimpleMesh::updateAABB()
     for(const StlFacet& f: facets)
     {
         for (int i = 0; i < 3; i++) {
-            aabb.Add(QVector3D(f.coords[i][0], f.coords[i][1], f.coords[i][2]));
+            aabb.Add(QVector3D(f.vertices[i][0], f.vertices[i][1], f.vertices[i][2]));
         }
     }
 }
@@ -53,9 +54,9 @@ void ViewSimpleMesh::centralize()
     for(StlFacet& f: facets)
     {
         for (int i = 0; i < 3; i++) {
-            f.coords[i][0] -= originalCenter.x();
-            f.coords[i][1] -= originalCenter.y();
-            f.coords[i][2] -= originalCenter.z();
+            f.vertices[i][0] -= originalCenter.x();
+            f.vertices[i][1] -= originalCenter.y();
+            f.vertices[i][2] -= originalCenter.z();
         }
     }
 }

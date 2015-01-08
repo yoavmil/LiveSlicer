@@ -1,6 +1,10 @@
 #include "mesh.h"
 
-Mesh::Mesh(QObject *parent) : QObject(parent)
+#include "logger.h"
+
+#include <QSet>
+
+Mesh::Mesh()
 {
 
 }

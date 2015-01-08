@@ -10,6 +10,7 @@
 class Mesh;
 class ViewerProvider;
 
+
 struct MeshLoaderParams
 {
     MeshLoaderParams(const QString& _fName):
@@ -36,14 +37,12 @@ public:
         StlAscii,
         Obj
     };
-
     MeshLoader(MeshLoaderParams _mlp);
     ~MeshLoader();
     const QString& FileName() {return mlp.fName;}
     const QString& ShortFileName();
 
     // Task interface
-    virtual int GetProgress();
     virtual QString GetTitle();
     virtual QString GetTooltip();
 
@@ -55,6 +54,7 @@ protected:
 
 private:
     QFile file;
+    QString shortFileName;
     MeshLoaderParams mlp;
     QVector<StlFacet> stlFacets;
 
@@ -63,6 +63,8 @@ private:
     void readFile();
     void readBinStl();
     void saveModel();
+    void createMeshVectors();
+
 };
 
 #endif // MESHLOADER_H

@@ -13,7 +13,7 @@ class Task : public QObject
 public:
     Task(bool _threaded);
     virtual ~Task();
-    virtual int GetProgress();
+    int GetProgress();
     virtual bool IsFinished();
     virtual QString GetTitle() {return title;}
     virtual QString GetTooltip() {return tooltip;}
@@ -34,7 +34,7 @@ public:
     Q_ENUMS(TaskState)
 
 signals:
-    void progress(int donePrecent);//0-100
+    void progressChanged();//0-100
     void finished(bool ok);
     void paused();
     void aborted();
@@ -66,13 +66,14 @@ protected:
     bool threaded;
 
 protected slots:
-    virtual void doStart() = 0;
-    virtual void doResume() = 0;
+    virtual void doStart(){}//impliment those:
+    virtual void doResume(){}
 
 private:
     static QMutex allJobsMutex;
+    QMutex samplingMutex;
     static QObjectList alljobs;
-    int currProgress;
+    int currProgress, prevSampledProgres;
     QString title, tooltip;
     TaskState taskState;
 };

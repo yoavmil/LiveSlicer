@@ -15,8 +15,6 @@ ViewWorld::~ViewWorld()
     vao->destroy();
 }
 
-
-
 void ViewWorld::doPaint()
 {
     
