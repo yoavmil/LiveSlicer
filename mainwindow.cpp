@@ -20,10 +20,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Live Slicer");
+    setupViewer3D();
     setupActions();
     setupActionsToolBar();
     setupInfoDockWidget();
-    setupViewer3D();
 }
 
 MainWindow::~MainWindow()

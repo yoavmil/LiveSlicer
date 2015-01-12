@@ -35,7 +35,6 @@ void Viewer3D::SetProvider(ViewerProvider *vp)
 
 void Viewer3D::initializeGL()
 {
-
     initializeOpenGLFunctions();
     if (provider != nullptr)
         provider->InitGL();
@@ -46,14 +45,12 @@ void Viewer3D::initializeGL()
 
 void Viewer3D::resizeGL(int w, int h)
 {
-
     glViewport(0, 0, w, h);
     setProjectionMat();
 }
 
 void Viewer3D::setProjectionMat()
 {
-
     const double aspectRatio = (float) width() / height(), fov = 45.0;
     glMatrixMode(GL_PROJECTION);
     QMatrix4x4 m;
@@ -77,23 +74,6 @@ void Viewer3D::paintGL()
     {
         item->Paint();
     }
-//    glBegin(GL_TRIANGLES);
-//    {
-//        //glNormal3d(0, 1, 0);
-
-//        glColor3f(0.0,0.0,1.0);
-//        glVertex3d(10, 0, -2);
-//        glColor3f(0.0,1.0,0.0);
-//        glVertex3d(0, 10, -2);
-//        glColor3f(1.0,0.0,0.0);
-//        glVertex3d(0, 0, -2);
-
-////        glVertex2d(0, 0);
-////        glVertex2d(0, 10);
-////        glVertex2d(10, 0);
-//    }
-//    glEnd();
-
 }
 
 QPointF Viewer3D::pixelPosToViewPos(const QPointF &p)

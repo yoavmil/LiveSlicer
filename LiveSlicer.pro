@@ -28,8 +28,7 @@ SOURCES += main.cpp\
     gui3d/viewworld.cpp \
     common/aabb3d.cpp \
     gui3d/viewercam.cpp \
-    gui3d/viewmesh.cpp \
-    gui3d/trackball.cpp
+    gui3d/viewmesh.cpp
 
 HEADERS  += mainwindow.h \
     mesh/meshloader.h \
@@ -49,7 +48,6 @@ HEADERS  += mainwindow.h \
     common/aabb3d.h \
     gui3d/viewercam.h \
     gui3d/viewmesh.h \
-    gui3d/trackball.h \
     libs/glm/common.hpp \
     libs/glm/exponential.hpp \
     libs/glm/ext.hpp \

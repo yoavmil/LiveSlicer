@@ -16,8 +16,6 @@ public:
     void SetProvider(ViewerProvider* vp);
     ViewerCam* Cam();
 
-protected:
-
 
     // QOpenGLWidget interface
 protected:
