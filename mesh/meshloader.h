@@ -64,7 +64,6 @@ private:
     void readBinStl();
     void saveModel();
     void createMeshVectors();
-
 };
 
 #endif // MESHLOADER_H

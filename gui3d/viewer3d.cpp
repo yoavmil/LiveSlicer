@@ -1,10 +1,15 @@
 #include <QMouseEvent>
+#include <QOpenGLBuffer>
+#include <QOpenGLShaderProgram>
+#include "glm/vec3.hpp"
 
 #include "viewer3d.h"
 #include "viewerprovider.h"
 #include "viewitem.h"
 #include "logger.h"
 #include "viewercam.h"
+#include "vertexdata.h"
+#include "qthelpers.h"
 
 void qgluPerspective(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar);
 
@@ -36,17 +41,19 @@ void Viewer3D::SetProvider(ViewerProvider *vp)
 void Viewer3D::initializeGL()
 {
     initializeOpenGLFunctions();
+    initShaders();
+
     if (provider != nullptr)
-        provider->InitGL();
+        provider->InitGL(this);
 
     backGround = Qt::lightGray;
-    glClearColor(backGround.redF(), backGround.greenF(), backGround.blackF(), backGround.alphaF());
+    glClearColor(backGround.redF(), backGround.greenF(), backGround.blackF(), backGround.alphaF());   
 }
 
 void Viewer3D::resizeGL(int w, int h)
 {
     glViewport(0, 0, w, h);
-    setProjectionMat();
+    //setProjectionMat();
 }
 
 void Viewer3D::setProjectionMat()
@@ -58,22 +65,80 @@ void Viewer3D::setProjectionMat()
     glLoadMatrixf(m.data());
 }
 
+void Viewer3D::initShaders()
+{
+
+    OpenGLShader vertexShader(FileToString(":/Shaders/simplevertexshader.vsh").data(), ShaderType::Vertex);
+    vertexShader.Build();
+
+    OpenGLShader fragShader(FileToString(":/Shaders/simplefragmentshader.frag").data(), ShaderType::Fragment);
+    fragShader.Build();
+    OpenGLProgram program;
+    program.AddShader(vertexShader);
+    program.AddShader(fragShader);
+    program.Build();
+    program.Use();
+
+    vertexLocation = program.AttribLocation("vertex");
+    normalLocation = program.AttribLocation("vertexNormal");
+    colorLocation = program.AttribLocation("color");
+    MVMatLocation = program.UniformLocation("MVmat");
+    PMatLocation = program.UniformLocation("Pmat");
+
+    DBGF << vertexLocation;
+    DBGF << normalLocation;
+    DBGF << colorLocation;
+    DBGF << MVMatLocation;
+    DBGF << PMatLocation;
+
+    GLFacetData facet;
+    facet.vertices[0].coord.x = -1;
+    facet.vertices[0].coord.y = -1;
+    facet.vertices[0].coord.z = 1;
+
+    facet.vertices[1].coord.x = 0;
+    facet.vertices[1].coord.y = 1;
+    facet.vertices[1].coord.z = 0;
+
+    facet.vertices[2].coord.x = 1;
+    facet.vertices[2].coord.y = 1;
+    facet.vertices[2].coord.z = 1;
+
+    facet.vertices[0].color = glm::vec3(1, 0, 0);
+    facet.vertices[1].color = glm::vec3(0, 1, 0);
+    facet.vertices[2].color = glm::vec3(0, 0, 1);
+
+    glEnableVertexAttribArray(vertexLocation);
+    glEnableVertexAttribArray(colorLocation);
+
+    GLuint buffId;
+    glGenBuffers(1, &buffId);
+    glBindBuffer(GL_ARRAY_BUFFER, buffId);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(facet), &facet, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE,
+                          sizeof(GLVertexData), (char*)offsetof(GLVertexData, coord));
+    glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE,
+                          sizeof(GLVertexData), (char*)offsetof(GLVertexData, color));
+ }
+
 void Viewer3D::paintGL()
 {
     if (provider == nullptr) return;
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadMatrixf(cam->Data());
+    //glMatrixMode(GL_MODELVIEW);
+    //glLoadMatrixf(cam->Data());
 
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);//don't render the 'outside' of the facets
 
-    const QList<ViewItem*> items = provider->Items();
-    for (ViewItem* item: items)
-    {
-        item->Paint();
-    }
+//    const QList<ViewItem*> items = provider->Items();
+//    for (ViewItem* item: items)
+//    {
+//        item->Paint();
+//    }
+
 }
 
 QPointF Viewer3D::pixelPosToViewPos(const QPointF &p)

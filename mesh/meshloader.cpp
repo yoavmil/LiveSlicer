@@ -165,54 +165,24 @@ bool std::less<glm::vec3>::operator () (const glm::vec3& a, const glm::vec3& b) 
 
 void MeshLoader::createMeshVectors()
 {
-    std::map<glm::vec3, int> verticesMap;
-
-    std::vector<glm::vec3>& vertices = mlp.mesh->vertices;
-    std::vector<glm::vec3>& facetNormals = mlp.mesh->facetNormals;
-    std::vector<Facet>& facets = mlp.mesh->facets;
-
-    facets.resize(stlFacets.length());
-    facetNormals.resize(stlFacets.length());
+    std::vector<GLFacetData>& facets = mlp.mesh->facets;
+    const glm::vec3 defaultColor = glm::vec3(0.5, 0.5, 0.5);
     setTitle(QString("%1: creating vertices arrays").arg(ShortFileName()));
-
+    facets.resize(stlFacets.size());
     for (int i = 0; i < stlFacets.length(); i++) {
         const StlFacet& stlFacet = stlFacets[i];
         setProgress(i*95.0/stlFacets.length());
-        facets[i].mesh = mlp.mesh;
+        GLFacetData& facet = facets[i];
 
-        //vertices
-        for (int v = 0; v < 3; v++) {
-            const glm::vec3& vertex = stlFacet.vertices[v];
-             verticesMap[vertex] = -1;
+        glm::vec3 normal = glm::vec3(stlFacets[i].normal[0], stlFacets[i].normal[1], stlFacets[i].normal[2]);
+
+        for (int v = 0; v < 3; v++) {             
+            facet.vertices[v].coord = stlFacet.vertices[v];
+            facet.vertices[v].normal = normal;
+            facet.vertices[v].color = defaultColor;
         }   
-
-        //normal
-        facetNormals[i] = glm::vec3(stlFacets[i].normal[0], stlFacets[i].normal[1], stlFacets[i].normal[2]);
-        facets[i].n = i;
     }
 
-    std::map<glm::vec3, int>::iterator mapIter =  verticesMap.begin();
-    int v = 0;
-    while(mapIter != verticesMap.end()) {
-        mapIter->second = v;
-        mapIter++; v++;
-    }
-    for (int i = 0; i < stlFacets.length(); i++) {
-        const StlFacet& stlFacet = stlFacets[i];
-        for (int v = 0; v < 3; v++) {
-            std::map<glm::vec3, int>::iterator mapIter = verticesMap.find(stlFacet.vertices[v]);
-            facets[i].v[v] = mapIter->second;
-        }
-    }
-
-    vertices.resize(verticesMap.size());
-
-    mapIter =  verticesMap.begin();
-    for (int i = 0; i < verticesMap.size(); i++) {
-        setProgress((100-i*5.0)/verticesMap.size());
-        vertices[i] = mapIter->first;
-        mapIter++;
-    }
     setProgress(100);
 }
 

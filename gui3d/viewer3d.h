@@ -3,8 +3,7 @@
 
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
-
-
+#include "openglprogram.h"
 class ViewerProvider;
 class ViewerCam;
 
@@ -15,7 +14,6 @@ public:
     ~Viewer3D();
     void SetProvider(ViewerProvider* vp);
     ViewerCam* Cam();
-
 
     // QOpenGLWidget interface
 protected:
@@ -29,10 +27,18 @@ private:
     float viewNeer, viewFar;
     QColor backGround;
     ViewerCam* cam;
+
+    int vertexLocation;
+    int normalLocation;
+    int colorLocation;
+    int MVMatLocation;
+    int PMatLocation;
+
     void setStates();
     void defaultStates();
     void setLights();
     void setProjectionMat();
+    void initShaders();
 
 protected:
     // QWidget interface

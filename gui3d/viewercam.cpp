@@ -17,7 +17,6 @@ ViewerCam::ViewerCam(Viewer3D *_viewer):
 
 ViewerCam::~ViewerCam()
 {
-
 }
 
 void ViewerCam::mousePressed(ViewerCam::MoveMode mm, const QPoint &pos)

@@ -5,6 +5,7 @@
 #include <QMutex>
 
 class ViewItem;
+class Viewer3D;
 
 class ViewerProvider : public QObject
 {
@@ -13,7 +14,7 @@ public:
     explicit ViewerProvider(QObject *parent = 0);
     ~ViewerProvider();
 
-    void InitGL();
+    void InitGL(Viewer3D *viewer);
 
     void AddItem(ViewItem* item);
     void RemoveItem(ViewItem* item);
@@ -26,6 +27,7 @@ private:
     QList<ViewItem*> items;
     QList<ViewItem*> newItems, oldItems;
     QMutex itemsMutex;
+    Viewer3D* viewer;
 };
 
 #endif // VIEWPROVIDER_H

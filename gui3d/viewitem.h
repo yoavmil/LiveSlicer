@@ -7,7 +7,7 @@
 #include <QMatrix4x4>
 #include <QObject>
 #include <QVector3D>
-
+class Viewer3D;
 class ViewItem : public QObject
 {
     Q_OBJECT
@@ -19,7 +19,7 @@ public:
 //    QColor GetColor() {return color;}
 
     void Paint();
-    virtual void InitGL() {initiated = true;}
+    virtual void InitGL(Viewer3D* _viewer) {viewer = _viewer; initiated = true;}
     bool initiated;
 
 signals:
@@ -28,6 +28,7 @@ public slots:
 
 protected:
     QVector3D Translate, Rotate, Scale;
+    Viewer3D* viewer;
     QOpenGLFunctions* gl;
 
     virtual void doPaint() = 0;

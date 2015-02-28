@@ -2,7 +2,7 @@
 #define VIEWWORLD_H
 
 #include "viewitem.h"
-class QOpenGLVertexArrayObject;
+#include <QOpenGLVertexArrayObject>
 
 class ViewWorld : public ViewItem
 {
@@ -12,11 +12,11 @@ public:
     ~ViewWorld();
 
     // ViewItem interface
-    virtual void InitGL() Q_DECL_OVERRIDE;
+    virtual void InitGL(Viewer3D* _viewer) Q_DECL_OVERRIDE;
 protected:
     virtual void doPaint() Q_DECL_OVERRIDE;
 private:
-    QOpenGLVertexArrayObject* vao;
+    QOpenGLVertexArrayObject vao;
     GLuint vboId[1];
 };
 

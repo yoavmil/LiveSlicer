@@ -21,14 +21,14 @@ SOURCES += main.cpp\
     gui/tasksmanager.cpp \
     gui3d/viewer3d.cpp \
     mesh/mesh.cpp \
-    mesh/facet.cpp \
     gui3d/viewitem.cpp \
     gui3d/viewsimplemesh.cpp \
     gui3d/viewerprovider.cpp \
     gui3d/viewworld.cpp \
     common/aabb3d.cpp \
     gui3d/viewercam.cpp \
-    gui3d/viewmesh.cpp
+    gui3d/viewmesh.cpp \
+    glhelpers/openglprogram.cpp
 
 HEADERS  += mainwindow.h \
     mesh/meshloader.h \
@@ -38,7 +38,6 @@ HEADERS  += mainwindow.h \
     gui/tasksmanager.h \
     gui3d/viewer3d.h \
     mesh/mesh.h \
-    mesh/facet.h \
     common/exceptions.h \
     gui3d/viewerprovider.h \
     gui3d/viewitem.h \
@@ -189,19 +188,21 @@ HEADERS  += mainwindow.h \
     libs/glm/gtx/type_aligned.hpp \
     libs/glm/gtx/vector_angle.hpp \
     libs/glm/gtx/vector_query.hpp \
-    libs/glm/gtx/wrap.hpp
+    libs/glm/gtx/wrap.hpp \
+    gui3d/vertexdata.h \
+    glhelpers/openglprogram.h \
+    common/qthelpers.h
 
 FORMS    += mainwindow.ui \
     gui/taskgui.ui
 
-DISTFILES +=
-
 INCLUDEPATH += common
 INCLUDEPATH += mesh
-INCLUDEPATH += gui gui3d
+INCLUDEPATH += gui gui3d glhelpers
 INCLUDEPATH += libs libs/glm/detail libs/glm/gtc libs/glm/gtx
 
 CONFIG += c++11
 
 RESOURCES += \
     resources.qrc
+

@@ -5,4 +5,8 @@
         <file>resources/start.png</file>
         <file>resources/stop.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>Shaders/simplevertexshader.vsh</file>
+        <file>Shaders/simplefragmentshader.frag</file>
+    </qresource>
 </RCC>

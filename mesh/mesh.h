@@ -3,10 +3,9 @@
 
 #include <QObject>
 #include <vector>
+#include <QGL>
 
-#include <glm/glm.hpp>
-
-#include "facet.h"
+#include "vertexdata.h"
 #include "common.h"
 
 struct MeshStats {
@@ -21,11 +20,7 @@ class Mesh : public QObject
 public:
     explicit Mesh();
     ~Mesh();
-
-    std::vector<glm::vec3> vertices;
-    std::vector<glm::vec3> facetNormals;
-    std::vector<Facet> facets;
-
+    std::vector<GLFacetData> facets;//triplets
     MeshStats meshStats;
 
 signals:

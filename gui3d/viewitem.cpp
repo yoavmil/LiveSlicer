@@ -18,7 +18,7 @@ void ViewItem::Paint()
     if (gl == nullptr)
         gl = QOpenGLContext::currentContext()->functions();
     if (!initiated)
-        InitGL();
+        return;
     doPaint();
 }
 

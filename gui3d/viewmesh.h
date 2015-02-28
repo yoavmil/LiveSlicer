@@ -20,7 +20,8 @@ protected:
 
     void initData();
     bool dataCreated;
-    QOpenGLBuffer vertexBuffer, indexBuffer;
+    QOpenGLVertexArrayObject vao;
+    QOpenGLBuffer vertexBuffer;
     Mesh* mesh;
     bool failedToLoad;
 };

@@ -1,44 +1,41 @@
 #include "viewworld.h"
 #include <QOpenGLVertexArrayObject>
 #include "logger.h"
+#include "viewer3d.h"
 
 ViewWorld::ViewWorld(QObject *parent):
-    ViewItem(parent),
-    vao(nullptr)
+    ViewItem(parent)
 {
-    
     vboId[0] = 0;
 }
 
 ViewWorld::~ViewWorld()
 {
-    vao->destroy();
+    vao.destroy();
 }
 
 void ViewWorld::doPaint()
 {
-    
-    if (vao == nullptr)
+    if (!vao.isCreated())
         return;
 
-    vao->bind();
+    vao.bind();
     glDrawArrays(GL_QUADS, 0, 1);
-    vao->release();
+    vao.release();
 }
 
 
-void ViewWorld::InitGL()
+void ViewWorld::InitGL(Viewer3D* _viewer)
 {
-    
-    if (vao == nullptr) {
-        vao = new QOpenGLVertexArrayObject(this);
-        if (!vao->create()) {
-            vao = nullptr;
+    ViewItem::InitGL(_viewer);
+
+    if (!vao.isCreated()) {
+        if (!vao.create()) {
             DBGF << "failed to vreate vao";
             return;
         }
 
-        vao->bind();
+        vao.bind();
 
         gl->glGenBuffers(1, vboId);
         gl->glBindBuffer(GL_ARRAY_BUFFER, vboId[0]);
@@ -50,7 +47,7 @@ void ViewWorld::InitGL()
         };
         gl->glBufferData(GL_ARRAY_BUFFER, 3*4*sizeof(GLfloat), vertices, GL_STATIC_DRAW);
 
-        vao->release();
+        vao.release();
         initiated = true;
     }
 

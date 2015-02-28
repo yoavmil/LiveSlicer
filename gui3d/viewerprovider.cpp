@@ -14,10 +14,11 @@ ViewerProvider::~ViewerProvider()
 
 }
 
-void ViewerProvider::InitGL()
+void ViewerProvider::InitGL(Viewer3D* _viewer)
 {
+    viewer = _viewer;
     for(ViewItem *vi : items)
-        vi->InitGL();
+        vi->InitGL(viewer);
 }
 
 void ViewerProvider::AddItem(ViewItem *item)
