@@ -1,12 +1,6 @@
 <RCC>
-    <qresource prefix="/images">
-        <file>resources/folder_open.png</file>
-        <file>resources/pause.png</file>
-        <file>resources/start.png</file>
-        <file>resources/stop.png</file>
-    </qresource>
-    <qresource prefix="/">
-        <file>Shaders/simplevertexshader.vsh</file>
-        <file>Shaders/simplefragmentshader.frag</file>
+    <qresource prefix="/shaders">
+        <file>shaders/simplefragshader.frag</file>
+        <file>shaders/simplevertshader.vert</file>
     </qresource>
 </RCC>

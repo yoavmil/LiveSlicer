@@ -6,29 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>547</width>
-    <height>331</height>
+    <width>759</width>
+    <height>501</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <property name="leftMargin">
-     <number>0</number>
-    </property>
-    <property name="topMargin">
-     <number>0</number>
-    </property>
-    <property name="rightMargin">
-     <number>0</number>
-    </property>
-    <property name="bottomMargin">
-     <number>0</number>
-    </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="Viewer3D" name="viewer3d"/>
+     <widget class="MeshViewer" name="viewer"/>
     </item>
    </layout>
   </widget>
@@ -37,12 +25,18 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>547</width>
-     <height>20</height>
+     <width>759</width>
+     <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu_File">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="action_Open_Mesh"/>
+   </widget>
+   <addaction name="menu_File"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -51,25 +45,19 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QDockWidget" name="actionsDockWidget">
-   <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="action_Open_Mesh">
+   <property name="text">
+    <string>&amp;Open Mesh</string>
    </property>
-   <property name="windowTitle">
-    <string/>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_2"/>
-  </widget>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>Viewer3D</class>
+   <class>MeshViewer</class>
    <extends>QOpenGLWidget</extends>
-   <header>gui3d/viewer3d.h</header>
+   <header>meshviewer.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

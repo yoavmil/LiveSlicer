@@ -1,69 +1,41 @@
-#ifndef MESHLOADER_H
-#define MESHLOADER_H
+#ifndef MODEL_H
+#define MODEL_H
 
-#include <QFile>
-#include <QVector>
+#include <unordered_map>
+#include <QObject>
+#include <QString>
+#include "Utils/utils.h"
+#include "meshcommon.h"
 
-#include "task.h"
-#include "common.h"
-
-class Mesh;
-class ViewerProvider;
-
-
-struct MeshLoaderParams
-{
-    MeshLoaderParams(const QString& _fName):
-        ignoreNormals(true),
-        mesh(nullptr),
-        fName(_fName),
-        viewProvider(nullptr)
-    {}
-
-    bool ignoreNormals;
-    Mesh* mesh;
-    QString fName;
-    ViewerProvider* viewProvider;
-};
-
-class MeshLoader : public Task
+class MeshLoader : public QObject
 {
     Q_OBJECT
-
 public:
-    enum class MeshType
-    {
-        StlBinary,
-        StlAscii,
-        Obj
-    };
-    MeshLoader(MeshLoaderParams _mlp);
-    ~MeshLoader();
-    const QString& FileName() {return mlp.fName;}
-    const QString& ShortFileName();
+    explicit MeshLoader(QObject *parent = 0);
+    void LoadAsync(const QString& _fName);
+    bool LoadBlocking(const QString& fName);
+    QString fName;
+    QString error;
 
-    // Task interface
-    virtual QString GetTitle();
-    virtual QString GetTooltip();
+    QList<MeshFacet> facets;
+    std::unordered_map<LineDirLess, QList<int>> lineToFacetsIdx;
+    QList<glm::vec3> vertices;
+    std::unordered_map<glm::vec3, int> vertexToIdx;
 
-    MeshType meshType;
-
-protected:
-    virtual void doStart();
-    virtual void doResume();
+signals:
+    void Finished(bool ok);
+    void Progress(QString what, double progress);
 
 private:
-    QFile file;
-    QString shortFileName;
-    MeshLoaderParams mlp;
-    QVector<StlFacet> stlFacets;
+    void loadAsync();
+    void readSTL(QVector<StlFacet>& stlFacets);
+    void fillFacets();
+    void markInvalidFacets();
+    void fillLines();
 
-    void openFile();
-    void findFileType();
-    void readFile();
-    void readBinStl();
-    void saveModel();
-    void createMeshVectors();
+    void progress(const char* what, double progress);
+    double prevProgress;
+    int numberOfFacets;
 };
 
-#endif // MESHLOADER_H
+#endif // MODEL_H

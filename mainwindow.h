@@ -2,14 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+class Mesh;
 
 namespace Ui {
 class MainWindow;
 }
-
-class TasksManager;
-class ViewerProvider;
-class Viewer3D;
 
 class MainWindow : public QMainWindow
 {
@@ -19,21 +16,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void on_action_Open_Mesh_triggered();
+
 private:
     Ui::MainWindow *ui;
-    QToolBar * sideToolBar;
-    void setupActions();
-    void setupActionsToolBar();
-    void setupJobsToolDockingWidget();
-    void setupInfoDockWidget();
-    void setupViewer3D();
-
-    QAction* openFileAction;
-    TasksManager* tasksManager;
-    Viewer3D *viewer3d;
-    ViewerProvider* viewProvider;
-private slots:
-    void openFile();
+    Mesh* mesh;
 };
 
 #endif // MAINWINDOW_H
