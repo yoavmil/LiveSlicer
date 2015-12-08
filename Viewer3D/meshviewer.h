@@ -9,7 +9,6 @@ class Mesh;
 class GLWrap;
 class Camera;
 class QOpenGLDebugLogger;
-class QTimer;
 class MeshViewer : public QOpenGLWidget
 {
 public:
@@ -45,9 +44,10 @@ protected:
 
     QGLShaderProgram program;
 
+    glm::vec3 lightPos();
+
 private:
     QMutex viewablesMutex;
-    QTimer* timer;
 
 protected slots:
     void timerTimeout();

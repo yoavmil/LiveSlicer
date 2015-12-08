@@ -35,16 +35,16 @@ void Camera::MouseMove(glm::vec2 delta)
     switch (motionMode) {
     case AroundEye:
         dir = glm::rotate(dir, deltaDeg.x, UP);
-        dir = glm::rotate(dir, deltaDeg.y, rightSide());
+        dir = glm::rotate(dir, deltaDeg.y, Right());
         break;
     case AroundCenter:
         eyeToTarget = glm::rotate(-dir, deltaDeg.x, UP);
-        eyeToTarget = glm::rotate(eyeToTarget, deltaDeg.y, rightSide());
+        eyeToTarget = glm::rotate(eyeToTarget, deltaDeg.y, Right());
         eye = target + eyeToTarget * dist;
         dir = -eyeToTarget;
         break;
     case Shift:
-        eye += rightSide() * delta.x + UP * delta.y;
+        eye += Right() * delta.x + UP * delta.y;
         break;
     case Forward:
         eye -= delta.y * dir;
@@ -99,7 +99,7 @@ void Camera::Zoom(int howMuch)
     SetPerspective(width, height, zNear, zFar);
 }
 
-glm::vec3 Camera::rightSide()
+glm::vec3 Camera::Right() const
 {
     return glm::cross(dir, UP);
 }

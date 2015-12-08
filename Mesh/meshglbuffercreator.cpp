@@ -33,7 +33,7 @@ void MeshGLBufferCreator::createAsync()
 
         const MeshFacet& meshFacet = mesh->Facets()[f];
         glm::vec3 normal = computeNormal (
-                mesh->Vertices()[meshFacet.vertexIdx[0]],
+                    mesh->Vertices()[meshFacet.vertexIdx[0]],
                 mesh->Vertices()[meshFacet.vertexIdx[1]],
                 mesh->Vertices()[meshFacet.vertexIdx[2]]);
         for (size_t v = 0; v < 3; v++) {
@@ -43,13 +43,13 @@ void MeshGLBufferCreator::createAsync()
             glVertex.vertex = mesh->Vertices()[meshFacet.vertexIdx[v]];
             switch (v) {
             case 0:
-                glVertex.rgb = yellow;
+                glVertex.rgb = green;
                 break;
             case 1:
                 glVertex.rgb = green;
                 break;
             case 2:
-                glVertex.rgb = red;
+                glVertex.rgb = green;
                 break;
             }
         }

@@ -14,9 +14,6 @@ MeshViewer::MeshViewer(QWidget *parent):
     gl = new GLWrap();
     cam = new Camera(this);
     connect(cam, SIGNAL(CamChanged()), this, SLOT(repaint()));
-    timer = new QTimer(this);
-    timer->setInterval(10);
-    connect(timer, &QTimer::timeout, this, &MeshViewer::timerTimeout);
 }
 
 void MeshViewer::initializeGL()
@@ -147,7 +144,7 @@ void MeshViewer::paintMesh()
     gl->UniformMatrix(mvpLocation, cam->MVPMat());
     gl->UniformMatrix(mvLocation, cam->MVMat());
     gl->UniformMatrix(normalMatLocation, cam->NormalMatrix());
-    gl->Uniform(lightPosLocation, cam->Eye());
+    gl->Uniform(lightPosLocation, lightPos());
 
     gl->BindArrayBuffer(mesh->GlVertexBuffId());
 
@@ -168,7 +165,7 @@ void MeshViewer::paintMesh()
     gl->BindArrayBuffer(0);
 }
 
-void MeshViewer::timerTimeout()
+glm::vec3 MeshViewer::lightPos()
 {
-    repaint();
+    return cam->Eye();
 }

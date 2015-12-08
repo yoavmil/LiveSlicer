@@ -25,7 +25,7 @@ void main(void)
     vec3 Ispec = specColor * pow(max(dot(R,E),0.0),0.3*matShininess);
     Ispec = clamp(Ispec, 0.0, 1.0);
 
-    gl_FragColor.xyz = out_rgb * ambientColor + Idiff + Ispec;
+    gl_FragColor.xyz = out_rgb * (ambientColor + Idiff) + Ispec;
     gl_FragColor.a = 1;
 }
 
