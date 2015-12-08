@@ -12,6 +12,8 @@ public:
     glm::mat4x4 MVPMat();
     glm::mat4x4 MVMat();
     glm::mat4x4 NormalMatrix();
+    const glm::vec3& Eye() { return eye; }
+    const glm::vec3& Dir() { return dir; }
     enum MotionMode { AroundEye, AroundCenter, Shift, Forward };
     void MouseMove(glm::vec2 delta);
     void SetViewDir(const glm::vec3& _eye, const glm::vec3& _dir);

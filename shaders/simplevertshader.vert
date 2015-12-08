@@ -14,10 +14,13 @@ out vec3 out_pos;
 
 void main(void)
 {    
-    out_normal = vec3(normalMat * vec4(normal, 0.0));
-    out_rgb = rgb;
     vec4 pos4 = mvMat * vec4(vertex, 1.0);
-    out_pos = vec3(pos4) / pos4.w;
+
+    // normal in world space
+    out_normal = vec3(normalMat * vec4(normal, 0.0));
+
+    out_rgb = rgb;
+    out_pos = pos4.xyz;
     gl_Position = mvpMat * vec4(vertex, 1.0);
 }
 

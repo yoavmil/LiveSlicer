@@ -20,6 +20,8 @@ public:
     void Viewport(GLint x,GLint y,GLsizei width,GLsizei height);
     void UniformMatrix(GLint location, const glm::mat4& mat);
     void UniformMatrix(GLint location, const glm::mat3& mat);
+    void Uniform(GLint location, const glm::vec3& vec);
+    void Uniform(GLint location, const GLfloat& val);
     void ClearColor(const QColor& color);
     void Enable(GLCap cap, bool enable = true);
 

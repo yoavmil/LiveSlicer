@@ -35,6 +35,16 @@ void GLWrap::UniformMatrix(GLint location, const glm::mat3 &mat)
     CHECK_ERROR
 }
 
+void GLWrap::Uniform(GLint location, const glm::vec3 &vec)
+{
+    gl.glUniform3fv(location, 1, glm::value_ptr(vec));
+}
+
+void GLWrap::Uniform(GLint location, const GLfloat &val)
+{
+    gl.glUniform1f(location, val);
+}
+
 void GLWrap::ClearColor(const QColor &color)
 {
     gl.glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());

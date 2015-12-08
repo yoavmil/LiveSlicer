@@ -133,9 +133,13 @@ void MeshViewer::paintMesh()
 
     program.bind();
 
+    //uniforms
     int mvpLocation = program.uniformLocation("mvpMat");
     int mvLocation = program.uniformLocation("mvMat");
     int normalMatLocation = program.uniformLocation("normalMat");
+    int lightPosLocation = program.uniformLocation("lightPos");
+
+    //attributes
     int vertexLocation = program.attributeLocation("vertex");
     int rgbLocation = program.attributeLocation("rgb");
     int normalLocation = program.attributeLocation("normal");
@@ -143,6 +147,7 @@ void MeshViewer::paintMesh()
     gl->UniformMatrix(mvpLocation, cam->MVPMat());
     gl->UniformMatrix(mvLocation, cam->MVMat());
     gl->UniformMatrix(normalMatLocation, cam->NormalMatrix());
+    gl->Uniform(lightPosLocation, cam->Eye());
 
     gl->BindArrayBuffer(mesh->GlVertexBuffId());
 
