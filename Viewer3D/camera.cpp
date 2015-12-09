@@ -29,8 +29,8 @@ glm::mat4x4 Camera::NormalMatrix()
 void Camera::MouseMove(glm::vec2 delta)
 {
     glm::vec2 deltaDeg;
-    deltaDeg.y = glm::radians(fovy * delta.y / width);
-    deltaDeg.x = glm::radians(fovy / ratio * delta.x / height);
+    deltaDeg.y = glm::radians(3.0f * fovy * delta.y / width);
+    deltaDeg.x = glm::radians(3.0f * fovy / ratio * delta.x / height);
     glm::vec3 eyeToTarget, target = eye + dir * dist;
     switch (motionMode) {
     case AroundEye:

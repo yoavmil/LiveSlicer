@@ -59,6 +59,8 @@ void MeshViewer::mouseReleaseEvent(QMouseEvent *)
 
 void MeshViewer::mouseMoveEvent(QMouseEvent *e)
 {
+    if (cam->GetMotionMode() == Camera::AroundEye)
+        return;
     glm::vec2 currMousePos(e->x(), e->y());
     cam->MouseMove(currMousePos - prevMousePos);
     prevMousePos = currMousePos;

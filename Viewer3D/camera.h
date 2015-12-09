@@ -23,6 +23,7 @@ public:
     void LookAt(const glm::vec3& at);
     void SetPerspective(float _width, float _height, float _zNear, float _zFar);
     void SetMotionMode(MotionMode motionMode);
+    MotionMode GetMotionMode() { return motionMode; }
     void Zoom(int howMuch);
 signals:
     void CamChanged();
