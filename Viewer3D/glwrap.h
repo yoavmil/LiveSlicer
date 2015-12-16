@@ -15,6 +15,7 @@ enum class GLCap {
 class GLWrap {
 public:
     void Init(); //must call this function on initializeGL()
+    void Finish(); //waints untill GPU finished
 
     void Clear(GLbitfield mask);
     void Viewport(GLint x,GLint y,GLsizei width,GLsizei height);

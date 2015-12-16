@@ -11,6 +11,11 @@ void GLWrap::Init()
     CHECK_ERROR
 }
 
+void GLWrap::Finish()
+{
+    gl.glFinish();
+}
+
 void GLWrap::Clear(GLbitfield mask)
 {
     gl.glClear(mask);

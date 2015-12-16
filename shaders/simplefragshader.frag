@@ -28,4 +28,3 @@ void main(void)
     gl_FragColor.xyz = out_rgb * (ambientColor + Idiff) + Ispec;
     gl_FragColor.a = 1;
 }
-
