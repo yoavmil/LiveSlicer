@@ -109,7 +109,6 @@ void MeshViewer::initShaders()
     }
 }
 
-glm::mat4 modelView;
 void MeshViewer::paintMesh()
 {
     if (mesh == nullptr)
@@ -143,8 +142,8 @@ void MeshViewer::paintMesh()
     int rgbLocation = program.attributeLocation("rgb");
     int normalLocation = program.attributeLocation("normal");
 
-    gl->UniformMatrix(mvpLocation, cam->PerspectiveMat() * modelView);
-    gl->UniformMatrix(mvLocation, modelView);
+    gl->UniformMatrix(mvpLocation, cam->MVPMat());
+    gl->UniformMatrix(mvLocation, cam->MVMat());
     gl->UniformMatrix(normalMatLocation, cam->NormalMatrix());
     gl->Uniform(lightPosLocation, lightPos());
 
