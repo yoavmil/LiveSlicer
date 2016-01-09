@@ -11,6 +11,7 @@ public:
     explicit Camera(QObject *parent = 0);
     glm::mat4x4 MVPMat();
     glm::mat4x4 MVMat();
+    glm::mat4x4 PerspectiveMat() { return perspectiveMat; }
     glm::mat4x4 NormalMatrix();
     const glm::vec3& Eye() const { return eye; }
     const glm::vec3& Dir() const { return dir; }
